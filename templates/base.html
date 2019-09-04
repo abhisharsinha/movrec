@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>{% block title %} {% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    {% block links %} {% endblock %}
+    {% block head %} {% endblock %}
+    <style>
+      .rating {
+        display: inline-block;
+        position: relative;
+        height: 50px;
+        line-height: 50px;
+        font-size: 50px;
+      }
+
+      .rating label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        cursor: pointer;
+      }
+
+      .rating label:last-child {
+        position: static;
+      }
+
+      .rating label:nth-child(1) {
+        z-index: 5;
+      }
+
+      .rating label:nth-child(2) {
+        z-index: 4;
+      }
+
+      .rating label:nth-child(3) {
+        z-index: 3;
+      }
+
+      .rating label:nth-child(4) {
+        z-index: 2;
+      }
+
+      .rating label:nth-child(5) {
+        z-index: 1;
+      }
+
+      .rating label input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+      }
+
+      .rating label .icon {
+        float: left;
+        color: transparent;
+      }
+
+      .rating label:last-child .icon {
+        color: #000;
+      }
+
+      .rating:not(:hover) label input:checked ~ .icon,
+      .rating:hover label:hover input ~ .icon {
+        color: #09f;
+      }
+
+      .rating label input:focus:not(:checked) ~ .icon:last-child {
+        color: #000;
+        text-shadow: 0 0 5px #09f;
+      }
+
+      body {
+        background-color: #9e9e9e99;
+        margin-bottom: 10px;
+
+      }
+
+      .container {
+        background-color: #cecfd0;
+        padding: 1em;
+        margin: 1em auto;
+      }
+
+      nav {
+        margin: 0px;
+        background-color: black;
+        margin-bottom: 1.5em;
+      }
+
+      #line {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+          <a class="navbar-brand" href="/">MovRec</a>
+          <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon float-right"></span>
+          </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#"></a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0" method="POST" action="/search">
+            <div class="input-group">
+              <input class="form-control mr-sm-2" type="search" name="query" id="query" placeholder="Search" aria-label="Search" required>
+            </div>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+          {% if 'user' in session %}
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
+          {% endif %}
+        </div>
+    </nav>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-danger alert-dismissable fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  {% block content %}
+
+  {% endblock %}
+
+  <div class="container container-fluid" id="line">
+    <hr>
+  </div>
+  </body>
+</html>

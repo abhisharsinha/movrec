@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %} Results {% endblock %}
+
+{% block content %}
+  <div class="container container-fluid">
+    <h3>Results for {{ query }}</h3>
+    <hr>
+    {% for movie in results %}
+    <div class="row">
+      <div class="col-lg-8 col-sm-12 col-xs-12">
+        <a href="/movie/{{movie['movie_id']}}"><h3>{{ movie["title"] }}</h3></a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

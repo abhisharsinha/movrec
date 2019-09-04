@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %} Admin {% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+  <h3>Add a new movie: </h3>
+
+  <form action="/admin" method="post">
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input type="text" class="form-control" id="title" name="title" required>
+    </div>
+    <div class="form-group">
+      <label for="genres">Genres (comma seperated):</label>
+      <input type="text" class="form-control" id="genres" name="genres" required>
+    </div>
+    <div class="form-group">
+      <label for="imdb_id">Imdb Id:</label>
+      <input type="text" class="form-control" id="imdb_id" name="imdb_id" required>
+    </div>
+    <div class="form-group">
+      <label for="year">Year:</label>
+      <input type="text" class="form-control" id="year" name="year" required>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+  <br>
+  <a href="/logout"><button class="btn btn-danger" class="btn btn-default">Logout</button></a>
+</div>
+
+{% endblock %}

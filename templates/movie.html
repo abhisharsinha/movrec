@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %} {{ movie["title"] }} ({{ movie["year"] }}) {% endblock %}
+{% block head %}
+  {% if user_rating %}
+  <script type="text/javascript">
+    function showStars() {
+      document.star_rating.stars[{{user_rating}}-1].checked = true;
+    }
+    window.onload = showStars;
+  </script>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+
+  <div class="container container-fluid">
+    <h2>{{ movie["title"] }}  ({{movie["year"]}})</h2>
+    <h3>Genre:
+      {% for genre in movie["genres"] %}
+			   <span>{{ genre }},</span>
+		  {% endfor %}
+    </h3>
+    <br>
+    {% if movie['imdb_id'] != '0' %}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <img src="{{ details['Poster'] }}" alt="{{movie['title']}}" id="poster">
+          <br>
+          <h4>Rate the movie: </h4>
+          <form name="star_rating" class="rating" method="POST" action="/rate/{{movie['movie_id']}}">
+            <label>
+              <input type="radio" name="stars" value="1" onclick="this.form.submit();"/>
+              <span class="icon">★</span>
+            </label>
+            <label>
+              <input type="radio" name="stars" value="2" onclick="this.form.submit();"/>
+              <span class="icon">★</span>
+              <span class="icon">★</span>
+            </label>
+            <label>
+              <input type="radio" name="stars" value="3" onclick="this.form.submit();"/>
+              <span class="icon">★</span>
+              <span class="icon">★</span>
+              <span class="icon">★</span>
+            </label>
+            <label>
+              <input type="radio" name="stars" value="4" onclick="this.form.submit();"/>
+              <span class="icon">★</span>
+              <span class="icon">★</span>
+              <span class="icon">★</span>
+              <span class="icon">★</span>
+            </label>
+            <label>
+              <input type="radio" name="stars" value="5" onclick="this.form.submit();"/>
+              <span class="icon">★</span>
+              <span class="icon">★</span>
+              <span class="icon">★</span>
+              <span class="icon">★</span>
+              <span class="icon">★</span>
+            </label>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Released: </strong>{{ details["Released"] }}</p>
+          <p><strong>Director: </strong>{{ details["Director"] }}</p>
+          <p><strong>Actors: </strong>{{ details["Actors"] }}</p>
+          <p><strong>Average Ratings:</strong></p>
+          {% for rating in details["Ratings"] %}
+            <p>{{ rating['Source'] }} : {{ rating['Value'] }}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <br>
+      <h3>Plot Summary</h3>
+      <p>{{ details["Plot"] }}</p>
+      <hr>
+      <h4><a href="https://www.imdb.com/title/tt{{movie['imdb_id']}}/"><span>IMDB Link</span></a></h4>
+      {% endif %}
+      <h3>You may also like: </h3>
+      <ul>
+        {% for sim_movie in similar_movies %}
+        <li class="list-unstyled"><a href="/movie/{{ sim_movie['movie_id']}}"><h4>{{ sim_movie["title"] }}  ({{sim_movie["year"]}})</h4></a></li>
+        {% endfor %}
+      </ul>
+      {% if content == False %}
+      <a href="/content/{{ movie['movie_id']}}"><h4>See Similar Movies</h4></a>
+      {% endif %}
+    </div>
+    </div>
+
+{% endblock %}

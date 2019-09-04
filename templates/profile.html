@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}MovRec{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Hello {{ user["name"] }}!</h2>
+  {% if user["ratings"]|count == 0  %}
+    <h3>Please rate some movies</h3>
+  {% else %}
+    <h3>Recommended for you</h3>
+    {% for movie in recommendations %}
+      <div class="row">
+        <div class="col-sm-6">
+          <h5 class=""><a href="/movie/{{movie['movie_id']}}"><h3>{{ movie["title"] }}</h3></a></h5>
+        </div>
+      </div>
+    {% endfor %}
+    <br>
+    <h3>Your Ratings</h3>
+    {% for movie, rating in user_ratings.items() %}
+      <div class="row">
+        <div class="col-sm-6 col-xs-6">
+          <a href="/movie/{{movie}}"><p>{{ user_rated_movies[movie]["title"] }}</p></a>
+        </div>
+        <div class="col-sm-6 col-xs-6">
+          <p>{{ rating }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+</div>
+{% endblock %}
